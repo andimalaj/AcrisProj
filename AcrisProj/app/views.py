@@ -7,6 +7,10 @@ from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
 
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required
+
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
@@ -41,6 +45,34 @@ def about(request):
         {
             'title':'About',
             'message':'Your application description page.',
+            'year':datetime.now().year,
+        }
+    )
+
+def metodologjia(request):
+    """Renders the about page."""
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/metodologjia.html',
+        {
+            'title':'metodologjia',
+            'message':'Metodologjia e vleresimit',
+            'year':datetime.now().year,
+        }
+    )
+
+
+@login_required
+def logged(request):
+    """Renders the about page."""
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/logged.html',
+        {
+            'title':'Login Home',
+            'message':'Faqa e menaxhimit',
             'year':datetime.now().year,
         }
     )

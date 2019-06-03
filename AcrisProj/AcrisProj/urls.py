@@ -25,7 +25,7 @@ urlpatterns = [
         django.contrib.auth.views.login,
         {
             'template_name': 'app/login.html',
-            'authentication_form': app.forms.BootstrapAuthenticationForm,
+            'authentication_form': app.forms.BootstrapAuthenticationForm,  
             'extra_context':
             {
                 'title': 'Log in',
@@ -45,4 +45,6 @@ urlpatterns = [
 
     # Uncomment the next line to enable the admin:
      url(r'^admin/', include(admin.site.urls)),
+     url(r'^metodologjia$', app.views.metodologjia, name='metodologjia'),
+     url(r'^logged$', app.views.logged, name='logged'),
 ]
