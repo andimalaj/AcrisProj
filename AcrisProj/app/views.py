@@ -11,6 +11,19 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth.decorators import user_passes_test
+
+from django.urls import reverse
+
+
+def in_group_IAL(user):
+    return user.groups.filter(name="IAL").exists()
+
+def in_group_KV(user):
+    return user.groups.filter(name="Komisioni i Vlersimeve").exists()
+
+
+
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
@@ -63,16 +76,70 @@ def metodologjia(request):
     )
 
 
+
+
 @login_required
 def logged(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
+    group = request.user.groups.filter(user=request.user)[0]
+
+    if group.name=="IAL":
+        return HttpResponseRedirect(reverse('logged_ial'))
+  
+
+    elif group.name=="Komisioni i Vlersimeve":
+        #return HttpResponseRedirect(reverse('logged_kv'))
+        return HttpResponseRedirect(reverse('logged_kv'))
+        return render(
+            request,
+            'app/logged_kv.html',
+            {
+                'title':'ADMIN-KV',
+                'message':'Faqa e menaxhimit KV',
+                'year':datetime.now().year,
+            }
+        )
+    else :
+        return render(
+            request,
+            'app/logged.html',
+            {
+                'title':'Login Home',
+                'message':'Faqa e menaxhimit',
+                'year':datetime.now().year,
+            }
+        )
+
+
+@login_required
+@user_passes_test(in_group_IAL)
+def logged_ial(request):
+    """Renders the about page."""
+    assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/logged.html',
+        'app/logged_ial.html',
         {
-            'title':'Login Home',
-            'message':'Faqa e menaxhimit',
+            'title':'ADMIN-IAL',
+            'message':'Faqa e menaxhimit IAL',
             'year':datetime.now().year,
         }
     )
+
+@login_required
+@user_passes_test(in_group_KV)
+def logged_kv(request):
+    """Renders the about page."""
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/logged_kv.html',
+        {
+            'title':'ADMIN-KV',
+            'message':'Faqa e menaxhimit KV',
+            'year':datetime.now().year,
+        }
+    )
+
+

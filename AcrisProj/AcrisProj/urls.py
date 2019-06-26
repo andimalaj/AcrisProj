@@ -47,4 +47,6 @@ urlpatterns = [
      url(r'^admin/', include(admin.site.urls)),
      url(r'^metodologjia$', app.views.metodologjia, name='metodologjia'),
      url(r'^logged$', app.views.logged, name='logged'),
+     url(r'^logged_ial$', app.views.logged_ial, name='logged_ial'),
+     url(r'^logged_kv$', app.views.logged_kv, name='logged_kv'),
 ]
