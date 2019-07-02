@@ -10,6 +10,7 @@ import django.contrib.auth.views
 
 import app.forms
 import app.views
+ 
 
 # Uncomment the next lines to enable the admin:
 # from django.conf.urls import include
@@ -49,4 +50,8 @@ urlpatterns = [
      url(r'^logged$', app.views.logged, name='logged'),
      url(r'^logged_ial$', app.views.logged_ial, name='logged_ial'),
      url(r'^logged_kv$', app.views.logged_kv, name='logged_kv'),
+     url(r'^komisionet$', app.views.komisionet, name='komisionet'),
+     url(r'^komisionet_create/$', app.views.komisionet_create, name='komisionet_create'),
+     url(r'^(?P<komisionet_id>[0-9]+)/$', app.views.komisionet_edit, name='komisionet_edit'),
+     url(r'^(?P<komisionet_id>[0-9]+)/$', app.views.komisionet_detail, name='komisionet_detail'),
 ]

@@ -1,0 +1,47 @@
+﻿
+{% extends "app/layout_admin.html" %}
+
+{% block content %}
+
+<main class="page-content">
+
+
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-sm-12 col-md-7">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h1>{{ komisionet.emertimi }}</h1>
+                    <h2>{{komisionet.aktiv|yesno:"Aktiv,JoAktiv"}}</h2>
+
+                    <a href="{% url 'komisionet_edit' komisionet.id %}" class="btn btn-info btn-lg float-right">
+                                         <span class="glyphicon glyphicon-plus-sign"></span> Edit
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-5">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Komisionet e vleresimit</h3>
+                    <p>Vendosni emertimin e komisionit duke respektuar sugjerimet e meposhtme :</p>
+                    <ul>
+                        <li>Vensdosni parashtesen KV#, ku # eshte nr rendor i komisionit</li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</main>
+
+
+{% endblock %}

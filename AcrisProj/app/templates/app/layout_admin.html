@@ -45,7 +45,7 @@
 	                                                  <a href="#"><i class="fa fa-users"></i> Komisionet e Vlersimit <span class="arrow"></span></a>
 	                                                </li>
 	                                                <ul class="sub-menu collapse" id="products">
-	                                                    <li class="active" ><a href="#">Komision i Ri</a></li>
+	                                                    <li class="active" ><a href="/komisionet">Komision i Ri</a></li>
 	                                                    <li  ><a href="#">Vlersues i ri</a></li>
 	                                                    <li><a href="#">Lista e vleresuesve</a></li>
 	                                                    <li><a href="#">Rolet</a></li>
@@ -82,7 +82,23 @@
 	                                                  </a>
 	                                                  </li>
 
+                                                    
+                                                    
+                                                    
+                                                    
+
 	                                            </ul>
+                                                <form id="logoutForm" action="/logout" method="post" >
+                                                        {% csrf_token %}
+                                                       <ul id="menu-content" class="menu-content collapse out">
+                                                            <li>
+                                                                <a href="javascript:document.getElementById('logoutForm').submit()">
+                                                                <i class="fa fa-user fa-lg"></i>Log off</a> 
+                                                            </li>
+                                                       </ul>
+                                                        
+                                                </form>
+                                                
 	                                     </div>
 	                                </div>
 

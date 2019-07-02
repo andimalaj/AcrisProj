@@ -2,18 +2,25 @@
 Definition of views.
 """
 
-from django.shortcuts import render
-from django.http import HttpRequest
+from django.shortcuts import render,render_to_response,get_object_or_404
+from django.http import HttpRequest,HttpResponse,HttpResponseRedirect
 from django.template import RequestContext
 from datetime import datetime
 
-from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.contrib.auth.decorators import login_required
+#from django.http import HttpResponseRedirect
+#from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required,user_passes_test
 
-from django.contrib.auth.decorators import user_passes_test
-
+#from django.contrib.auth.decorators import user_passes_test
+#from django.http import HttpResponse
 from django.urls import reverse
+from django.template import loader
+from .models import Komisionet
+
+from .forms import KomisionetForm
+
+
+#from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 
 def in_group_IAL(user):
@@ -142,4 +149,58 @@ def logged_kv(request):
         }
     )
 
+@login_required
+@user_passes_test(in_group_KV)
+def komisionet(request):
+    """Renders the about page."""
+    #assert isinstance(request, HttpRequest)
+    all_komisionet = Komisionet.objects.all()
+    template = loader.get_template('app/komisionet.html')
+    context = { 'all_komisionet' : all_komisionet,
+               'title':'Komisionet',
+            'message':'Komisionet e Vlersimit',
+            'year':datetime.now().year,
+        }
 
+    return HttpResponse( template.render(context,request))
+
+@login_required
+@user_passes_test(in_group_KV)
+def komisionet_create(request):
+    if not request.user.is_authenticated():
+        return render(request, 'app/login.html')
+    else:
+        form = KomisionetForm(request.POST or None)
+        if form.is_valid():
+            komisionet = form.save(commit=False)
+            #komisionet.emertimi = request.emertimi
+            #komisionet.aktiv = request.aktiv
+            komisionet.save()
+            #all_komisionet = Komisionet.objects.all()
+            #return render(request, 'app/komisionet.html', {'all_komisionet': all_komisionet})
+            return HttpResponseRedirect(reverse('komisionet'))
+        context = {
+            "form": form,
+        }
+        return render(request, 'app/komisionet_create.html', context)
+    
+@login_required
+def komisionet_detail(request, komisionet_id):
+    user = request.user
+    komisionet = get_object_or_404(Komisionet, pk=komisionet_id)
+    return render(request, 'app/komisionet_detail.html', {'komisionet': komisionet})
+
+
+@login_required
+def komisionet_edit(request, komisionet_id):
+    komisionet = get_object_or_404(Komisionet, pk=komisionet_id)    
+    form = KomisionetForm(request.POST or None, instance=komisionet)
+    if request.POST and form.is_valid():
+        komisionet = form.save(commit=False)
+        komisionet.save()
+        # Save was successful, so redirect to another page
+        return render(request, 'app/komisionet_detail.html', {'komisionet': komisionet})
+
+    return render(request, 'app/komisionet_edit.html', {
+        'form': form
+    })
