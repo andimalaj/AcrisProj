@@ -53,5 +53,8 @@ urlpatterns = [
      url(r'^komisionet$', app.views.komisionet, name='komisionet'),
      url(r'^komisionet_create/$', app.views.komisionet_create, name='komisionet_create'),
      url(r'^(?P<komisionet_id>[0-9]+)/$', app.views.komisionet_edit, name='komisionet_edit'),
-     url(r'^(?P<komisionet_id>[0-9]+)/$', app.views.komisionet_detail, name='komisionet_detail'),
+     url(r'^detail/(?P<komisionet_id>[0-9]+)/$', app.views.komisionet_detail, name='komisionet_detail'),
+     url(r'^vlersuesit$', app.views.vlersuesit, name='vlersuesit'),
+     url(r'^vlersuesit_create/$', app.views.vlersuesit_create, name='vlersuesit_create'),
+     url(r'^add/(?P<komisionet_id>[0-9]+)/$', app.views.komisionetV_add, name='komisionetV_add'),
 ]

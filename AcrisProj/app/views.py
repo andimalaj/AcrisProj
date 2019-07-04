@@ -15,9 +15,8 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 #from django.http import HttpResponse
 from django.urls import reverse
 from django.template import loader
-from .models import Komisionet
-
-from .forms import KomisionetForm
+from .models import Komisionet,Vlersues,User,KomisionetV
+from .forms import KomisionetForm,VlersuesitForm, UserForm, KomisionetVForm
 
 
 #from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -188,7 +187,17 @@ def komisionet_create(request):
 def komisionet_detail(request, komisionet_id):
     user = request.user
     komisionet = get_object_or_404(Komisionet, pk=komisionet_id)
-    return render(request, 'app/komisionet_detail.html', {'komisionet': komisionet})
+   
+
+    try :
+       #komisionetV = get_object_or_404(KomisionetV, komisioni = komisionet_id)
+       komisionetV = KomisionetV.objects.filter(komisioni = komisionet_id)
+       #komisionetV = KomisionetV.objects.get(komisioni=komisionet_id).values()
+    except Exception :
+        komisionetV = None
+
+        
+    return render(request, 'app/komisionet_detail.html', {'komisionet': komisionet, 'komisionetV': komisionetV  })
 
 
 @login_required
@@ -204,3 +213,66 @@ def komisionet_edit(request, komisionet_id):
     return render(request, 'app/komisionet_edit.html', {
         'form': form
     })
+
+@login_required
+@user_passes_test(in_group_KV)
+def vlersuesit(request):
+    """Renders the about page."""
+    #assert isinstance(request, HttpRequest)
+    all_vlersuesit = Vlersues.objects.all()
+    template = loader.get_template('app/vlersuesit.html')
+    context = { 'all_vlersuesit' : all_vlersuesit,
+               'title':'Vlersuesit',
+            'message':'Lista e Vlersuesve',
+            'year':datetime.now().year,
+        }
+
+    return HttpResponse( template.render(context,request))
+
+@login_required
+@user_passes_test(in_group_KV)
+def vlersuesit_create(request):
+    if not request.user.is_authenticated():
+        return render(request, 'app/login.html')
+    else:
+        form = VlersuesitForm(request.POST or None)
+        #formU = UserForm(request.POST or None)
+
+        if form.is_valid():
+            vlersuesit = form.save(commit=False)
+            #komisionet.emertimi = request.emertimi
+            #komisionet.aktiv = request.aktiv
+            vlersuesit.save()
+            #all_komisionet = Komisionet.objects.all()
+            #return render(request, 'app/komisionet.html', {'all_komisionet': all_komisionet})
+            return HttpResponseRedirect(reverse('vlersuesit'))
+        context = {
+            "form": form,
+            #"formU" : formU,
+        }
+        return render(request, 'app/vlersuesit_create.html', context)
+
+
+
+@login_required
+@user_passes_test(in_group_KV)
+def komisionetV_add(request,komisionet_id):
+    if not request.user.is_authenticated():
+        return render(request, 'app/login.html')
+    else:
+        form = KomisionetVForm(request.POST or None)
+        #formU = UserForm(request.POST or None)
+
+        if form.is_valid():
+            vlersuesit = form.save(commit=False)
+            #komisionet.emertimi = request.emertimi
+            #komisionet.aktiv = request.aktiv
+            vlersuesit.save()
+            #all_komisionet = Komisionet.objects.all()
+            #return render(request, 'app/komisionet.html', {'all_komisionet': all_komisionet})
+            return HttpResponseRedirect(reverse('komisionet'))
+        context = {
+            "form": form,
+            #"formU" : formU,
+        }
+        return render(request, 'app/komisionetV_add.html', context)

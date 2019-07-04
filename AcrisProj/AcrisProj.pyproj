@@ -58,12 +58,15 @@
   <ItemGroup>
     <Content Include="app\static\acris_logo.png" />
     <Content Include="app\templates\app\form_template.html" />
+    <Content Include="app\templates\app\komisionetV_add.html" />
     <Content Include="app\templates\app\komisionet_detail.html" />
     <Content Include="app\templates\app\komisionet_edit.html" />
     <Content Include="app\templates\app\metodologjia.html" />
     <Content Include="app\templates\app\logged.html" />
     <Content Include="app\templates\app\layout_admin.html" />
     <Content Include="app\templates\app\komisionet_create.html" />
+    <Content Include="app\templates\app\vlersuesit.html" />
+    <Content Include="app\templates\app\vlersuesit_create.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="app\static\app\content\bootstrap.css" />
