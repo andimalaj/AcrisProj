@@ -30,3 +30,10 @@ class KomisionetV(models.Model):
     komisioni = models.ForeignKey(Komisionet)
     vlersuesi = models.ForeignKey(Vlersues)
 
+
+class ScopusKatalog(models.Model) :
+    scopusid = models.CharField(max_length = 250,default=None, blank=True, null=True)
+    pubmedid = models.CharField(max_length = 250,default=None, blank=True, null=True)
+    author = models.CharField(max_length = 250,default=None, blank=True, null=True)
+    affiliation = models.CharField(max_length = 250,default=None, blank=True, null=True)
+    citation_count = models.CharField(max_length = 250,default=None, blank=True, null=True)

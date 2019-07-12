@@ -2,6 +2,9 @@
 Definition of views.
 """
 
+import requests
+import json
+
 from django.shortcuts import render,render_to_response,get_object_or_404
 from django.http import HttpRequest,HttpResponse,HttpResponseRedirect
 from django.template import RequestContext
@@ -15,11 +18,13 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 #from django.http import HttpResponse
 from django.urls import reverse
 from django.template import loader
-from .models import Komisionet,Vlersues,User,KomisionetV
-from .forms import KomisionetForm,VlersuesitForm, UserForm, KomisionetVForm
+from .models import Komisionet,Vlersues,User,KomisionetV,ScopusKatalog
+from .forms import KomisionetForm,VlersuesitForm, UserForm, KomisionetVForm,ScopusKatalogForm
 
 
 #from django.views.generic.edit import CreateView, UpdateView, DeleteView
+
+from django.views.decorators.csrf import csrf_protect
 
 
 def in_group_IAL(user):
@@ -276,3 +281,71 @@ def komisionetV_add(request,komisionet_id):
             #"formU" : formU,
         }
         return render(request, 'app/komisionetV_add.html', context)
+
+
+
+@login_required
+@user_passes_test(in_group_KV)
+def scopus(request):
+    """Renders the about page."""
+    #assert isinstance(request, HttpRequest)
+    all_scopusKatalogs = ScopusKatalog.objects.all()
+    template = loader.get_template('app/scopus.html')
+    context = { 'all_scopusKatalogs' : all_scopusKatalogs,
+               'title':'Scopus',
+            'message':'Kataloget nga Scopus',
+            'year':datetime.now().year,
+        }
+
+    return HttpResponse( template.render(context,request))
+
+
+@login_required
+@user_passes_test(in_group_KV)
+#@csrf_protect
+def scopus_create(request):
+    if not request.user.is_authenticated():
+        return render(request, 'app/login.html')
+    else:
+        form = ScopusKatalogForm(request.POST or None)
+        if form.is_valid():
+            kataloget = form.save(commit=False)
+            #komisionet.emertimi = request.emertimi
+            #komisionet.aktiv = request.aktiv
+            kataloget.save()
+            #all_komisionet = Komisionet.objects.all()
+            #return render(request, 'app/komisionet.html', {'all_komisionet': all_komisionet})
+            return HttpResponseRedirect(reverse('scopus'))
+        context = {
+            "form": form,
+        }
+        return render(request, 'app/scopus_create.html', context)
+
+@login_required
+@user_passes_test(in_group_KV)
+#@csrf_protect
+#def scopus_citation(request,**kwargs):
+def scopus_citation(request):
+    #form = ScopusKatalogForm(request.POST or None)
+    pubmedid = request.GET['pubmedid'] 
+    url = "https://api.elsevier.com/content/search/scopus?query=PMID(" + pubmedid + ")&field=citedby-count" 
+    #url = "https://api.elsevier.com/content/search/scopus?query=PMID(84883185940)&field=citedby-count"
+    headers = {'X-ELS-APIKey': '7ada9ef4ce70ab99b0d4d699eb27085a'}
+    p = requests.get(url,headers = headers)
+    res = p.json()
+    cit_count = p.json()['search-results']['entry'][0]['citedby-count']
+    context = {
+            #"form": form,
+            "cit_count": cit_count,
+
+            }
+    #return render(request, 'app/scopus_create.html', context)
+    response_data = {}
+    response_data['cit_count'] = cit_count
+
+    return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json")
+
+        
+

@@ -57,4 +57,7 @@ urlpatterns = [
      url(r'^vlersuesit$', app.views.vlersuesit, name='vlersuesit'),
      url(r'^vlersuesit_create/$', app.views.vlersuesit_create, name='vlersuesit_create'),
      url(r'^add/(?P<komisionet_id>[0-9]+)/$', app.views.komisionetV_add, name='komisionetV_add'),
+     url(r'^scopus$', app.views.scopus, name='scopus'),
+     url(r'^scopus_create/$', app.views.scopus_create, name='scopus_create'),
+     url(r'^scopus_citation/$',app.views.scopus_citation,  name='scopus_citation'),
 ]

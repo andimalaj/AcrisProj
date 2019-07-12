@@ -6,7 +6,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Komisionet,Vlersues, KomisionetV
+from .models import Komisionet,Vlersues, KomisionetV,ScopusKatalog
 from django.contrib.auth.models import User
 
 from django.forms.models import inlineformset_factory
@@ -49,3 +49,10 @@ class KomisionetVForm(forms.ModelForm):
         #komisioniV = forms.ModelChoiceField(queryset = Komisionet.objects.all().order_by('-emertimi') )
         #vlersuesiV = forms.ModelChoiceField(queryset = Vlersues.objects.all().order_by('userid') )
         fields = [ 'komisioni','vlersuesi']
+
+
+class ScopusKatalogForm(forms.ModelForm):
+
+    class Meta:
+        model = ScopusKatalog
+        fields = ['scopusid', 'pubmedid','author','affiliation','citation_count']
