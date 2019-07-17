@@ -327,21 +327,44 @@ def scopus_create(request):
 #def scopus_citation(request,**kwargs):
 def scopus_citation(request):
     #form = ScopusKatalogForm(request.POST or None)
-    pubmedid = request.GET['pubmedid'] 
-    url = "https://api.elsevier.com/content/search/scopus?query=PMID(" + pubmedid + ")&field=citedby-count" 
-    #url = "https://api.elsevier.com/content/search/scopus?query=PMID(84883185940)&field=citedby-count"
+    #pubmedid = request.GET['pubmedid'] 
+    scopusid = request.GET['scopusid'] 
+    #url = "https://api.elsevier.com/content/search/scopus?query=PMID(" + pubmedid + ")&field=citedby-count" 
+    url = "http://api.elsevier.com/content/search/scopus?query=SCOPUS-ID(" + scopusid + ")&field=affiliation,title,citedby-count,doi,pubmed-id,coverDate,publicationName,isbn,issn,volume,aggregationType,subtype,subtypeDescription,creator,author" 
     headers = {'X-ELS-APIKey': '7ada9ef4ce70ab99b0d4d699eb27085a'}
     p = requests.get(url,headers = headers)
     res = p.json()
     cit_count = p.json()['search-results']['entry'][0]['citedby-count']
+    pubmedid = p.json()['search-results']['entry'][0]['pubmed-id']
+    author = p.json()['search-results']['entry'][0]['dc:creator']
+    title = p.json()['search-results']['entry'][0]['dc:title']
+    issn = p.json()['search-results']['entry'][0]['prism:issn']
+    journal = p.json()['search-results']['entry'][0]['prism:publicationName']
+    date = p.json()['search-results']['entry'][0]['prism:coverDate']
+    affiliation = p.json()['search-results']['entry'][0]['affiliation'][0]['affilname']
+
     context = {
             #"form": form,
             "cit_count": cit_count,
+            "pubmedid": pubmedid,
+            "author": author,
+            "title": title,
+            "issn": issn,
+            "journal": journal,
+            "date": date,
+            "affiliation": affiliation,
 
             }
     #return render(request, 'app/scopus_create.html', context)
     response_data = {}
     response_data['cit_count'] = cit_count
+    response_data['pubmedid'] = pubmedid
+    response_data['author'] = author
+    response_data['title'] = title
+    response_data['issn'] = issn
+    response_data['journal'] = journal
+    response_data['date'] = date
+    response_data['affiliation'] = affiliation
 
     return HttpResponse(
             json.dumps(response_data),

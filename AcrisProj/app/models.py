@@ -37,3 +37,7 @@ class ScopusKatalog(models.Model) :
     author = models.CharField(max_length = 250,default=None, blank=True, null=True)
     affiliation = models.CharField(max_length = 250,default=None, blank=True, null=True)
     citation_count = models.CharField(max_length = 250,default=None, blank=True, null=True)
+    title = models.CharField(max_length = 250,default=None, blank=True, null=True)
+    issn = models.CharField(max_length = 250,default=None, blank=True, null=True)
+    date = models.CharField(max_length = 250,default=None, blank=True, null=True)
+    journal = models.CharField(max_length = 250,default=None, blank=True, null=True)

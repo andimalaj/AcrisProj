@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $(document.getElementById("id_pubmedid")).change(function () {
+    $(document.getElementById("id_scopusid")).change(function () {
         //alert("The text has been changed.");
         get_count();
     });
@@ -12,13 +12,20 @@ function get_count() {
     $.ajax({
         url: "/scopus_citation/", // the endpoint
         type: "GET", // http method
-        data: { pubmedid: $('#id_pubmedid').val() }, // data sent with the post request
+        data: { scopusid: $('#id_scopusid').val() }, // data sent with the post request
 
         // handle a successful response
         success: function (json) {
             //$('#post-text').val(''); // remove the value from the input
-           // alert(json); // log the returned json to the console
+            //alert(json); // log the returned json to the console
             $("#id_citation_count").val(json.cit_count);
+            $("#id_pubmedid").val(json.pubmedid);
+            $("#id_author").val(json.author);
+            $("#id_affiliation").val(json.affiliation);
+            $("#id_title").val(json.title);
+            $("#id_issn").val(json.issn);
+            $("#id_date").val(json.date);
+            $("#id_journal").val(json.journal);
            // alert("success"); // another sanity check
         },
 

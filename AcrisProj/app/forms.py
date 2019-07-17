@@ -55,4 +55,4 @@ class ScopusKatalogForm(forms.ModelForm):
 
     class Meta:
         model = ScopusKatalog
-        fields = ['scopusid', 'pubmedid','author','affiliation','citation_count']
+        fields = ['scopusid', 'pubmedid','author','affiliation','citation_count','title','issn','date','journal']
