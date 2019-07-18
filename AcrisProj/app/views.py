@@ -333,7 +333,7 @@ def scopus_citation(request):
     url = "http://api.elsevier.com/content/search/scopus?query=SCOPUS-ID(" + scopusid + ")&field=affiliation,title,citedby-count,doi,pubmed-id,coverDate,publicationName,isbn,issn,volume,aggregationType,subtype,subtypeDescription,creator,author" 
     headers = {'X-ELS-APIKey': '7ada9ef4ce70ab99b0d4d699eb27085a'}
     p = requests.get(url,headers = headers)
-    res = p.json()
+   # res = p.json()
     cit_count = p.json()['search-results']['entry'][0]['citedby-count']
     pubmedid = p.json()['search-results']['entry'][0]['pubmed-id']
     author = p.json()['search-results']['entry'][0]['dc:creator']
@@ -342,6 +342,14 @@ def scopus_citation(request):
     journal = p.json()['search-results']['entry'][0]['prism:publicationName']
     date = p.json()['search-results']['entry'][0]['prism:coverDate']
     affiliation = p.json()['search-results']['entry'][0]['affiliation'][0]['affilname']
+
+    url = "http://api.elsevier.com/content/serial/title?issn=" + issn +"&view=STANDARD"
+    m = requests.get(url,headers = headers)
+    snip = m.json()['serial-metadata-response']['entry'][0]['SNIPList']['SNIP'][0]['$']
+    sjr = m.json()['serial-metadata-response']['entry'][0]['SJRList']['SJR'][0]['$']
+    citescore = m.json()['serial-metadata-response']['entry'][0]['citeScoreYearInfoList']['citeScoreCurrentMetric']
+
+
 
     context = {
             #"form": form,
@@ -365,6 +373,9 @@ def scopus_citation(request):
     response_data['journal'] = journal
     response_data['date'] = date
     response_data['affiliation'] = affiliation
+    response_data['snip'] = snip
+    response_data['sjr'] = sjr
+    response_data['citescore'] = citescore
 
     return HttpResponse(
             json.dumps(response_data),

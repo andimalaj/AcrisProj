@@ -41,3 +41,6 @@ class ScopusKatalog(models.Model) :
     issn = models.CharField(max_length = 250,default=None, blank=True, null=True)
     date = models.CharField(max_length = 250,default=None, blank=True, null=True)
     journal = models.CharField(max_length = 250,default=None, blank=True, null=True)
+    snip = models.CharField(max_length = 250,default=None, blank=True, null=True)
+    sjr = models.CharField(max_length = 250,default=None, blank=True, null=True)
+    citescore = models.CharField(max_length = 250,default=None, blank=True, null=True)

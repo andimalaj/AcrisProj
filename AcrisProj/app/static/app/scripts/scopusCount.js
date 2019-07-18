@@ -26,6 +26,9 @@ function get_count() {
             $("#id_issn").val(json.issn);
             $("#id_date").val(json.date);
             $("#id_journal").val(json.journal);
+            $("#id_snip").val(json.snip);
+            $("#id_sjr").val(json.sjr);
+            $("#id_citescore").val(json.citescore);
            // alert("success"); // another sanity check
         },
 
