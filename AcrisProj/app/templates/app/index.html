@@ -2,12 +2,14 @@
 
 {% block content %}
 
-{% load staticfiles %}
+{#% load staticfiles %#}
+{% load static %}
 
 <div class="jumbotron">
     <h1>ACRIS <img src="{% static 'acris_logo.png' %}" height="165px" align="right" /></h1>
     <p class="lead">Platforma per Vleresimin e Veprimtarise Kerkimore-Shkencore</p>
-    <p><a href="{% url 'about' %}" class="btn btn-primary btn-large">Lexo me shume &raquo;</a></p>
+    <p style="color:red">Ky eshte ambient testimi. username: admin1@test.al  password: Rash2021!</p>
+    {#<p><a href="{% url 'about' %}" class="btn btn-primary btn-large">Lexo me shume &raquo;</a></p>#}
 </div>
 
 <div class="row">
@@ -17,17 +19,17 @@
             Parashikon sistemin e pikezimit te treguesve, qe perbejne kriteret
             e metodologjise se vleresimit te veprimtarise kerkimore-shkencore te njesive baze
         </p>
-        <p><a class="btn btn-primary btn-large" href="{% url 'metodologjia' %}">Lexo me shume &raquo;</a></p>
+        {#<p><a class="btn btn-primary btn-large" href="{% url 'metodologjia' %}">Lexo me shume &raquo;</a></p>#}
     </div>
     <div class="col-md-4">
         <h2>Katalogu i publikimeve</h2>
         <p>Platforma e vleresimit ACRIS eshte e lidhur me databazen e publikemeve UCRIS.</p>
-        <p><a class="btn btn-primary btn-large" href="https://ucris.rash.al">Lexo me shume &raquo;</a></p>
+        {#<p><a class="btn btn-primary btn-large" href="https://ucris.rash.al">Lexo me shume &raquo;</a></p>#}
     </div>
     <div class="col-md-4">
         <h2>Profilet e stafit kerkimor</h2>
         <p>Ne platformen UCRIS mund te konsultohen edhe profilet/CV e stafit akademik e kerkimor.</p>
-        <p><a class="btn btn-primary btn-large" href="https://ucris.rash.al">Lexo me shume &raquo;</a></p>
+        {#<p><a class="btn btn-primary btn-large" href="https://ucris.rash.al">Lexo me shume &raquo;</a></p>#}
     </div>
 </div>
 

@@ -27,8 +27,8 @@ class Vlersues(models.Model) :
 
 
 class KomisionetV(models.Model):
-    komisioni = models.ForeignKey(Komisionet)
-    vlersuesi = models.ForeignKey(Vlersues)
+    komisioni = models.ForeignKey(Komisionet , on_delete=models.CASCADE)
+    vlersuesi = models.ForeignKey(Vlersues , on_delete=models.CASCADE)
 
 
 class ScopusKatalog(models.Model) :

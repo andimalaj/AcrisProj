@@ -23,19 +23,21 @@ urlpatterns = [
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about$', app.views.about, name='about'),
     url(r'^login/$',
-        django.contrib.auth.views.login,
+        #django.contrib.auth.views.login,
+        django.contrib.auth.views.auth_login,
         {
-            'template_name': 'app/login.html',
-            'authentication_form': app.forms.BootstrapAuthenticationForm,  
-            'extra_context':
-            {
-                'title': 'Log in',
-                'year': datetime.now().year,
-            }
+            #'template_name': 'app/login.html',
+            #'authentication_form': app.forms.BootstrapAuthenticationForm,  
+            #'extra_context':
+            #{
+               # 'title': 'Log in',
+                #'year': datetime.now().year,
+            #}
         },
         name='login'),
     url(r'^logout$',
-        django.contrib.auth.views.logout,
+        #django.contrib.auth.views.logout,
+        django.contrib.auth.views.auth_logout,
         {
             'next_page': '/',
         },
@@ -45,7 +47,8 @@ urlpatterns = [
      url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-     url(r'^admin/', include(admin.site.urls)),
+    # url(r'^admin/', include(admin.site.urls)),
+     url(r'^admin/', admin.site.urls),
      url(r'^metodologjia$', app.views.metodologjia, name='metodologjia'),
      url(r'^logged$', app.views.logged, name='logged'),
      url(r'^logged_ial$', app.views.logged_ial, name='logged_ial'),

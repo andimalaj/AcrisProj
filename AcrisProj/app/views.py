@@ -5,7 +5,8 @@ Definition of views.
 import requests
 import json
 
-from django.shortcuts import render,render_to_response,get_object_or_404
+#from django.shortcuts import render,render_to_response,get_object_or_404
+from django.shortcuts import render,get_object_or_404
 from django.http import HttpRequest,HttpResponse,HttpResponseRedirect
 from django.template import RequestContext
 from datetime import datetime
@@ -96,12 +97,13 @@ def logged(request):
     group = request.user.groups.filter(user=request.user)[0]
 
     if group.name=="IAL":
-        return HttpResponseRedirect(reverse('logged_ial'))
+        #return HttpResponseRedirect(reverse('logged_ial'))
+        return HttpResponseRedirect(reverse('scopus_create'))
   
 
     elif group.name=="Komisioni i Vlersimeve":
         #return HttpResponseRedirect(reverse('logged_kv'))
-        return HttpResponseRedirect(reverse('logged_kv'))
+        return HttpResponseRedirect(reverse('scopus_create'))
         return render(
             request,
             'app/logged_kv.html',
