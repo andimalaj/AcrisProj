@@ -96,12 +96,12 @@ def logged(request):
     group = request.user.groups.filter(user=request.user)[0]
 
     if group.name=="IAL":
-        return HttpResponseRedirect(reverse('logged_ial'))
+        return HttpResponseRedirect(reverse('scopus_create'))
   
 
     elif group.name=="Komisioni i Vlersimeve":
         #return HttpResponseRedirect(reverse('logged_kv'))
-        return HttpResponseRedirect(reverse('logged_kv'))
+        return HttpResponseRedirect(reverse('scopus_create'))
         return render(
             request,
             'app/logged_kv.html',
