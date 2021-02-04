@@ -38,13 +38,17 @@ def in_group_KV(user):
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
+    form = ScopusKatalogForm(request.POST or None)
+    
     return render(
         request,
         'app/index.html',
         {
             'title':'Home Page',
             'year':datetime.now().year,
-        }
+            "form": form,
+        },
+
     )
 
 def contact(request):
@@ -321,8 +325,8 @@ def scopus_create(request):
         }
         return render(request, 'app/scopus_create.html', context)
 
-@login_required
-@user_passes_test(in_group_KV)
+#@login_required
+#@user_passes_test(in_group_KV)
 #@csrf_protect
 #def scopus_citation(request,**kwargs):
 def scopus_citation(request):

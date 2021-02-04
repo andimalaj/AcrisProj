@@ -5,6 +5,11 @@
 {#% load staticfiles %#}
 {% load static %}
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="{% static 'app/scripts/scopusCount.js' %}"></script>
+
 <div class="jumbotron">
     <h1>ACRIS <img src="{% static 'acris_logo.png' %}" height="165px" align="right" /></h1>
     <p class="lead">Platforma per Vleresimin e Veprimtarise Kerkimore-Shkencore</p>
@@ -31,6 +36,65 @@
         <p>Ne platformen UCRIS mund te konsultohen edhe profilet/CV e stafit akademik e kerkimor.</p>
         {#<p><a class="btn btn-primary btn-large" href="https://ucris.rash.al">Lexo me shume &raquo;</a></p>#}
     </div>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-sm-12 col-md-7">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Kontrollo Publikimin</h3>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'app/form_template.html' %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                {#<button type="submit" class="btn btn-success">Submit</button>#}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-5">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Hapat Scopus(Elsevier API) </h3>
+                    <p>Per te shfaqur publikim tuaj :</p>
+                    <ul>
+                        <li>vendosni ID ScopuS</li>
+                        <li>prisni qe sistemi te lidhet me Databazen Scopus per te thirrur te dhenat</li>
+                        <li>verifikoni te dhenat qe shfaqen ne faqe</li>
+                    </ul>
+                    <p>Parametrat qe shfaqen ne faqe :</p>
+                    <ul>
+                        <li>PUBMEDID - id e publikimit ne databazen MEDLINE</li>
+                        <li>AFFILIATION - institucioni me te cilin keni ber publikimin</li>
+                        <li>Citation count- nr i citimeve</li>
+                        <li>ISSN- id e revistes ku keni ber publikimin</li>
+                        <li>SNIP- source normalized impact per paper. This indicator measures the average citation impact of the publications of a journal. Unlike the well-known journal impact factor, 
+SNIP corrects for differences in citation practices between scientific fields, 
+thereby allowing for more accurate between-field comparisons of citation impact</li>
+                        <li>SJR - SCImago Journal Rank indicator. It is a measure of journal's impact, influence or prestige. 
+It expresses the average number of weighted citations received in the selected year by the documents published in the journal in the three previous years</li>
+                        <li>CiteScore - Scopus is not longer using the Impact factor of Thomson-Reuters. This is a new metric computed as 
+CiteScore = Number of citation in 2016 / (number of documents from 2013 to 2015)
+The CiteScore gives in general a number higher than the Impact Factor.</li>
+                    </ul>
+
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </div>
 
 {% endblock %}

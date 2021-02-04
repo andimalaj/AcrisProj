@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $(document.getElementById("id_scopusid")).change(function () {
-        //alert("The text has been changed.");
+        alert("The text has been changed.");
         get_count();
     });
 });
